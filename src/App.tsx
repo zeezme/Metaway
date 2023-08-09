@@ -1,6 +1,7 @@
+import { Router } from './router/router'
+
 function App() {
-  return <>AA</>
+  return <Router />
 }
 
 export default App
-
