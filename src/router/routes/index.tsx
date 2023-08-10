@@ -1,6 +1,9 @@
 import React from 'react'
-
-const Teste = React.lazy(() => import('../../views/teste/teste'))
+//import BlankLayout from '../../@core/layouts/blankLayout'
+import VerticalLayout from '../../@core/layouts/verticalLayout'
+import BlankLayout from '../../@core/layouts/blankLayout'
+const Login = React.lazy(() => import('../../views/login/login'))
+const Home = React.lazy(() => import('../../views/home/home'))
 
 interface Route {
   id: number
@@ -8,22 +11,35 @@ interface Route {
   path: string
   element: JSX.Element
   privateRoute: boolean
-  layout: boolean
+  layout: JSX.Element
   show: boolean
 }
 
 export const routes: Route[] = [
   {
-    id: 1,
-    name: 'teste',
-    path: '/teste',
+    id: 0,
+    name: 'home',
+    path: '/',
     element: (
       <React.Suspense fallback={<p>Loading...</p>}>
-        <Teste />
+        <Home />
       </React.Suspense>
     ),
     privateRoute: true,
-    layout: true,
+    layout: <VerticalLayout />,
+    show: true
+  },
+  {
+    id: 1,
+    name: 'login',
+    path: '/login',
+    element: (
+      <React.Suspense fallback={<p>Loading...</p>}>
+        <Login />
+      </React.Suspense>
+    ),
+    privateRoute: true,
+    layout: <BlankLayout />,
     show: true
   }
 ]

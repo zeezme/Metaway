@@ -6,7 +6,7 @@ export const Router = () => {
   const filteredRoutes = routes.filter((route) => route.show !== false)
 
   const routeElements = filteredRoutes.map((route) => (
-    <Route element={route.element} key={route.id}>
+    <Route element={route.layout} key={route.id}>
       <Route key={route.id} path={route.path} element={route.element} />
     </Route>
   ))

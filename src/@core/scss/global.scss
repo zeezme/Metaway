@@ -1,0 +1,120 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/root";
+
+$navbar-height: 80px;
+
+
+@import './variables.scss';
+
+ 
+
+.cursor-pointer {
+    cursor: pointer
+}
+
+.link-none {
+    color: inherit; 
+    text-decoration: none;
+}
+
+.loginScreen {
+    overflow: hidden
+
+}
+
+.card {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+    border-color: transparent;
+    border-radius: 10px;
+}
+.modal-content {
+    box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+    border-color: transparent;
+    border-radius: 0;
+}
+.button {
+    border-radius: 0;
+}
+.card-header {
+    background-color: transparent;
+    border-bottom: none;
+}
+.card-footer {
+    background-color: transparent;
+    border-top: none;
+}
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+.navbar {
+    height: $navbar-height;
+    z-index: 1000;
+}
+.sidebar {    
+    z-index: 0;
+    position: absolute;
+    transition: transform 2s ease-out;
+    width: 80px;
+    
+    height: calc(100vh - #{$navbar-height});
+  }
+  
+  .sidebar-open {
+
+    position: absolute;
+    transition: transform 2s ease-out;
+    width: 240px;
+    height: calc(100vh - $navbar-height);
+  }
+
+  .sidebar-none {
+    position: absolute;
+    transition: transform 0.5s ease-out;
+    width: 80px;
+    display: none;
+  }
+
+.on-hover:hover {
+    background-color: #100d7627;
+}
+.input-group-text {
+    background-color: transparent;
+}
+
+.form-control {
+    background-color: transparent;
+    border-radius: 4px;
+    height: 42px;
+}
+.form-control:focus {
+    transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+    border: 1px solid #ced4da;
+    box-shadow: -5px 5px 5px -5px rgba(38, 0, 255, 0.075), 5px 5px 5px -5px rgba(38, 0, 255, 0.075);
+    background-color: transparent;
+    z-index: 2;
+    /* border-right: none; */
+
+    & + .input-group-text {
+        transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+        border: 1px solid #ced4da;
+        border-left: none;
+        box-shadow: 5px 5px 5px -5px rgba(38, 0, 255, 0.075), -5px 5px 5px -5px rgba(38, 0, 255, 0.075);
+        background-color: transparent;
+    }
+}
+
+.p-autocomplete-input {
+    width: 100%;
+}
+
+
+

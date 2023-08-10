@@ -1,19 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
   theme: string
+  themeReverse: string
 }
 
 const initialState: State = {
-  theme: 'light'
+  theme: 'light',
+  themeReverse: 'dark'
 }
 
 export const globalSlice = createSlice({
   name: 'globalReducer',
   initialState,
   reducers: {
-    setTestValues: (state, action) => {
-      state.theme = action.payload.value
+    //!!
+    setGlobalValues: (state, action: PayloadAction<{ field: keyof State; value: string }>) => {
+      state[action.payload.field] = action.payload.value
     }
     /*  extraReducers: (builder) => {
     builder.addCase(test.fulfilled, (state, action) => {
@@ -23,6 +26,6 @@ export const globalSlice = createSlice({
   }
 })
 
-export const { setTestValues } = globalSlice.actions
+export const { setGlobalValues } = globalSlice.actions
 
 export default globalSlice.reducer
