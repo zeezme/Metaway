@@ -3,26 +3,33 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface State {
   theme: string
   themeReverse: string
+  rememberPassword: boolean
+  user: {
+    username: string
+    roles: Array<string>
+  }
 }
 
 const initialState: State = {
   theme: 'light',
-  themeReverse: 'dark'
+  themeReverse: 'dark',
+  rememberPassword: false,
+  user: {
+    username: '',
+    roles: []
+  }
 }
 
 export const globalSlice = createSlice({
   name: 'globalReducer',
   initialState,
   reducers: {
-    //!!
-    setGlobalValues: (state, action: PayloadAction<{ field: keyof State; value: string }>) => {
-      state[action.payload.field] = action.payload.value
+    setGlobalValues: (state, action: PayloadAction<{ field: keyof State; value: any }>) => {
+      const { field, value } = action.payload
+      // eslint-disable-next-line
+      // @ts-ignore
+      state[field] = value
     }
-    /*  extraReducers: (builder) => {
-    builder.addCase(test.fulfilled, (state, action) => {
-      state.test = action.payload
-    })
-  } */
   }
 })
 

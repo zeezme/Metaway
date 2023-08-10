@@ -6,7 +6,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 const persistConfig = {
   key: 'persistRoot',
   storage,
-  whitelist: ['user', 'login']
+  whitelist: ['globalReducer']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

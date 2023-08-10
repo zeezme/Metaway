@@ -30,16 +30,16 @@ const decideContent = ({ status, icon, title, childrenItem, route }: SidebarProp
           className="d-flex justify-content-center align-items-center text-white w-100 py-3 border-0 on-hover"
           onClick={handleCollapse}>
           <Row className="w-100">
-            <Col className="p-0 m-0">
+            <Col sm={2} className="p-0 m-0">
               <div>{icon}</div>
             </Col>
-            <Col>
-              <span className="w-100 text-center fw-bold m-0 p-0">{title}</span>
+            <Col sm={9} className="d-flex align-items-center">
+              <div className="w-100 text-center fw-bold m-0 p-0">{title}</div>
             </Col>
-            <Col className="p-0 m-0">
+            <Col sm={1} className="p-0 m-0">
               {childrenItem !== undefined && childrenItem.length !== 0 && (
                 <Fragment>
-                  {childrenIsOpen ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+                  {childrenIsOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </Fragment>
               )}
             </Col>

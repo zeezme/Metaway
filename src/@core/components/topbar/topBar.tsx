@@ -33,6 +33,7 @@ export default function Topbar() {
     <Fragment>
       <Navbar data-bs-theme={themeReverse} color={themeReverse} expand="xl" className="navbar">
         <NavbarBrand href="/" className="fw-bold">
+          <img src="/public/logo-metaway-white.png" className="me-2" style={{ width: '20%' }} />
           Metaway
         </NavbarBrand>
         <Nav>
