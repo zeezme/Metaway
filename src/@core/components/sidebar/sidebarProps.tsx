@@ -26,7 +26,7 @@ const decideContent = ({ status, icon, title, childrenItem, route }: SidebarProp
         <Button
           color=""
           tag={Link}
-          to={childrenItem !== undefined && childrenItem?.length > 0 ? '' : route}
+          to={route !== undefined ? route : null}
           className="d-flex justify-content-center align-items-center text-white w-100 py-3 border-0 on-hover"
           onClick={handleCollapse}>
           <Row className="w-100">
