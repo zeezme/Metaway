@@ -12,20 +12,20 @@ export const sideBarItems = [
   },
   {
     icon: <AiOutlineFileDone size={30} />,
-    title: 'Meu Cadastro',
-    route: '/',
+    title: 'Cadastro',
+    route: '/user-info',
     requiredRoles: []
   },
   {
     icon: <Users size={30} />,
     title: 'Pessoas',
-    route: '/',
+    route: '/people',
     requiredRoles: []
   },
   {
     icon: <TiContacts size={30} />,
     title: 'Contatos',
-    route: '/',
+    route: '/contacts',
     requiredRoles: []
   },
   {

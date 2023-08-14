@@ -49,7 +49,7 @@ module.exports = {
     'func-call-spacing': 'error',
     'implicit-arrow-linebreak': ['error', 'beside'],
     'keyword-spacing': 'error',
-    'no-mixed-operators': 'error',
+    'no-mixed-operators': 'off',
     'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1 }],
     'no-tabs': 'error',
     'no-unneeded-ternary': 'error',

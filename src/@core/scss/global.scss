@@ -6,6 +6,7 @@
 @import "../../../node_modules/bootstrap/scss/root";
 
 $navbar-height: 80px;
+$sidebar-closed-width: 80px;
 
 
 @import './variables.scss';
@@ -26,11 +27,11 @@ $navbar-height: 80px;
 
 }
 
+
 .card {
-    background-color: rgb(255, 255, 255);
     box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-    border-color: transparent;
-    border-radius: 10px;
+    border-radius: 3px;
+    z-index: 1;
 }
 .modal-content {
     box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
@@ -48,6 +49,10 @@ $navbar-height: 80px;
     background-color: transparent;
     border-top: none;
 }
+.topbar {
+    position: fixed;
+    width: 100vw;
+}
 .modal-header {
     border-bottom: none;
 }
@@ -59,19 +64,34 @@ $navbar-height: 80px;
     height: $navbar-height;
     z-index: 1000;
 }
-.sidebar {    
-    z-index: 0;
+.general-container {
+    width: 95vw;
+    padding: 2rem 0rem 0 7rem;
     position: absolute;
+    
+    margin-top: $navbar-height;
+}
+.sidebar {    
+    z-index: 2;
     transition: transform 2s ease-out;
-    width: 80px;
+    width: $sidebar-closed-width;
     height: calc(100vh - #{$navbar-height});
+    background-color: #343A40;
+    position: fixed;
+    
+    margin-top: $navbar-height;
   }
   
   .sidebar-open {
-    position: absolute;
+    z-index: 2;
     transition: transform 2s ease-out;
     width: 300px;
     height: calc(100vh - $navbar-height);
+    background-color: #343A40;
+    position: fixed;
+    
+    margin-top: $navbar-height;
+
   }
 
   .sidebar-none {

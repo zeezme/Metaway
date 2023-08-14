@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {
@@ -15,33 +14,64 @@ import {
   Spinner
 } from 'reactstrap'
 import { RootState } from '../../redux/store'
-import { Fields, setLoginFieldsValues } from './store/loginStore'
-import { setGlobalValues } from '../../redux/globalReducer'
+import { Fields, resetUserFields, setLoginFieldsValues } from './store/loginStore'
+import { setGlobalValues, setToken } from '../../redux/globalReducer'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { api } from '../../services/api'
+import { show } from '../../@core/components/modals/utils'
+import PasswordMask from '../../@core/components/masks/passwordMask'
+import LowerCaseMask from '../../@core/components/masks/lowerCaseMask'
 
 export default function Login() {
   const theme = useSelector((state: RootState) => state.globalReducer.theme)
   const themeReverse = useSelector((state: RootState) => state.globalReducer.themeReverse)
   const rememberPassword = useSelector((state: RootState) => state.globalReducer.rememberPassword)
   const loginFields = useSelector((state: RootState) => state.loginStore.fields)
+
   const dispatch = useDispatch()
   const onChange = (field: keyof Fields, value: any) => {
     dispatch(setLoginFieldsValues({ field, value }))
   }
-  const [cookies, setCookie] = useCookies(['token'])
+
+  const [cookies, setCookie, removeCookie] = useCookies(['token', 'sessionExpiration'])
+
   const user = cookies['token']
 
   useEffect(() => {
+    if (user?.username !== undefined && user?.tipos?.length === 0) {
+      show.error(
+        'Usuário sem a permissão: ["ROLE_USER"]',
+        'Por favor entre em contato com o administrador do sistema.'
+      )
+      removeCookie('token')
+      removeCookie('sessionExpiration')
+    }
+    if (!theme) {
+      dispatch(setGlobalValues({ field: 'theme', value: 'light' }))
+      dispatch(setGlobalValues({ field: 'themeReverse', value: 'dark' }))
+    }
     if (user !== undefined) {
       window.location.href = '/'
     }
-  })
-
-  const [loginError, setLoginError] = useState(false)
+    return () => {
+      dispatch(resetUserFields())
+    }
+  }, [])
 
   const [loading, setLoading] = useState('')
+
+  const handleSessionExpiration = () => {
+    const now = new Date()
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000)
+    const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000)
+
+    if (!rememberPassword) {
+      setCookie('sessionExpiration', oneHourLater)
+    } else {
+      setCookie('sessionExpiration', oneDayLater)
+    }
+  }
   const submit = async () => {
     setLoading('loading')
     try {
@@ -49,22 +79,25 @@ export default function Login() {
         username: loginFields.username,
         password: loginFields.password
       })
+
       if (res.status === 200) {
         setLoading('')
-        setLoginError(false)
+
         setCookie('token', res.data)
+        dispatch(setToken({ token: btoa(res.data) }))
         dispatch(
           setGlobalValues({
             field: 'user',
-            value: { username: res.data.username, roles: res.data.tipos }
+            value: { username: res.data.username, roles: res.data.tipos, id: res.data.id }
           })
         )
-        return res.data
+        window.location.href = '/welcome'
+
+        handleSessionExpiration()
       }
     } catch (error: any) {
       if (error.response.data.message === 'Bad credentials') {
         setLoading('')
-        setLoginError(true)
       }
     }
   }
@@ -87,11 +120,10 @@ export default function Login() {
                 <Label for="user" className={`text-${theme}`}>
                   Usuário
                 </Label>
-                <Input
-                  name="user"
+                <LowerCaseMask
                   className="text-white"
-                  invalid={loginError}
-                  onChange={(e) => onChange('username', e.target.value)}
+                  value={loginFields.username}
+                  onChange={(e) => onChange('username', e)}
                 />
               </FormGroup>
 
@@ -99,17 +131,10 @@ export default function Login() {
                 <Label for="password" className={`text-${theme}`}>
                   Senha
                 </Label>
-                <Input
-                  type="password"
-                  name="password"
+                <PasswordMask
                   className="text-white"
-                  invalid={loginError}
-                  onChange={(e) => onChange('password', e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                      submit()
-                    }
-                  }}
+                  value={loginFields.password}
+                  onChange={(e) => onChange('password', e)}
                 />
               </FormGroup>
               <FormGroup>
@@ -132,10 +157,6 @@ export default function Login() {
               <Button color={theme} className="w-100 mt-3" onClick={() => submit()}>
                 {loading ? <Spinner size="sm" /> : <span className="fw-bold">Acessar</span>}
               </Button>
-              <div className={`d-flex flex-row justify-content-center mt-5 text-${theme}`}>
-                <span>Precisar de ajuda?</span>
-                <span className="fw-bold ms-1 cursor-pointer">Clique aqui</span>
-              </div>
             </Form>
           </CardBody>
           <CardFooter></CardFooter>

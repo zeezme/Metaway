@@ -20,9 +20,6 @@ export default function Sidebar() {
 
   return (
     <div
-      style={{
-        backgroundColor: '#343A40'
-      }}
       className={`sidebar${sideBarStatus ? '-open' : ''}`}
       onMouseEnter={() => setSideBarStatus(true)}
       onMouseLeave={() => setSideBarStatus(false)}>

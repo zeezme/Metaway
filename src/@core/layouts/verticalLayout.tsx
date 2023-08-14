@@ -1,17 +1,19 @@
-import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Container } from 'reactstrap'
 import Topbar from '../components/topbar/topBar'
 import Sidebar from '../components/sidebar/sidebar'
+import { useCookies } from 'react-cookie'
 
 export default function VerticalLayout() {
+  const cookie = useCookies()
+
   return (
-    <Fragment>
+    <div>
       <Topbar />
-      <Sidebar />
-      <Container fluid>
+
+      {cookie[0].token && <Sidebar />}
+      <div className="general-container">
         <Outlet />
-      </Container>
-    </Fragment>
+      </div>
+    </div>
   )
 }

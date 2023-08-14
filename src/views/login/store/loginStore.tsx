@@ -25,10 +25,13 @@ export const loginSlice = createSlice({
     setLoginFieldsValues: (state, action: PayloadAction<{ field: keyof Fields; value: any }>) => {
       const { field, value } = action.payload
       state.fields[field] = value as Fields[keyof Fields]
+    },
+    resetUserFields: (state) => {
+      state.fields = initialState.fields
     }
   }
 })
 
-export const { setLoginFieldsValues } = loginSlice.actions
+export const { setLoginFieldsValues, resetUserFields } = loginSlice.actions
 
 export default loginSlice.reducer

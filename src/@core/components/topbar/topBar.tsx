@@ -1,24 +1,26 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import '../../../@core/scss/global.scss'
 import { Button, Nav, NavItem, Navbar, NavbarBrand, UncontrolledTooltip } from 'reactstrap'
 import { PiLightbulbFilamentFill } from 'react-icons/pi'
-import { IoMdLogIn } from 'react-icons/io'
+import { IoMdLogIn, IoMdLogOut } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { setGlobalValues } from '../../../redux/globalReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout, setGlobalValues } from '../../../redux/globalReducer'
+import { useCookies } from 'react-cookie'
+import { AppDispatch, RootState } from '../../../redux/store'
+import { show } from '../modals/utils'
 export default function Topbar() {
-  const [theme, setTheme] = useState('light')
-  const [themeReverse, setThemeReverse] = useState('dark')
-  const dispatch = useDispatch()
+  const cookie = useCookies()[0]
+
+  const theme = useSelector((state: RootState) => state.globalReducer.theme)
+  const themeReverse = useSelector((state: RootState) => state.globalReducer.themeReverse)
+
+  const dispatch: AppDispatch = useDispatch()
   const handleTheme = () => {
     if (theme === 'light') {
-      setTheme('dark')
-      setThemeReverse('secondary')
       dispatch(setGlobalValues({ field: 'theme', value: 'dark' }))
       dispatch(setGlobalValues({ field: 'themeReverse', value: 'secondary' }))
     } else {
-      setTheme('light')
-      setThemeReverse('dark')
       dispatch(setGlobalValues({ field: 'theme', value: 'light' }))
       dispatch(setGlobalValues({ field: 'themeReverse', value: 'dark' }))
     }
@@ -26,15 +28,24 @@ export default function Topbar() {
 
   useEffect(() => {
     document.body.setAttribute('data-bs-theme', theme)
-    localStorage.setItem('theme', theme)
   }, [theme])
 
+  const handleLogout = () => {
+    const _logout = () => {
+      dispatch(logout())
+      window.location.reload()
+    }
+    show.showConfirmation(
+      'Tem certeza que deseja sair?',
+      () => {},
+      () => _logout()
+    )
+  }
   return (
     <Fragment>
-      <Navbar data-bs-theme={themeReverse} color={themeReverse} expand="xl" className="navbar">
-        <NavbarBrand href="/" className="fw-bold">
-          <img src="/public/logo-metaway-white.png" className="me-2" style={{ width: '20%' }} />
-          Metaway
+      <Navbar data-bs-theme={themeReverse} color={themeReverse} expand="xl" className="topbar">
+        <NavbarBrand href="/" className="fw-bold w-fit">
+          Meta<span className="text-warning">genda</span>
         </NavbarBrand>
         <Nav>
           <NavItem>
@@ -45,14 +56,25 @@ export default function Topbar() {
               Alterar Tema
             </UncontrolledTooltip>
           </NavItem>
-          <NavItem>
-            <Button tag={Link} to="/login" color="" id="loginButton">
-              <IoMdLogIn className="text-white" size={30} />
-            </Button>
-            <UncontrolledTooltip placement="bottom" target="loginButton">
-              Fazer Login
-            </UncontrolledTooltip>
-          </NavItem>
+          {cookie.token ? (
+            <NavItem>
+              <Button color="" id="logoutButton" onClick={handleLogout}>
+                <IoMdLogOut className="text-white" size={30} />
+              </Button>
+              <UncontrolledTooltip placement="bottom" target="logoutButton">
+                Fazer Logout
+              </UncontrolledTooltip>
+            </NavItem>
+          ) : (
+            <NavItem>
+              <Button tag={Link} to="/login" color="" id="loginButton">
+                <IoMdLogIn className="text-white" size={30} />
+              </Button>
+              <UncontrolledTooltip placement="bottom" target="loginButton">
+                Fazer Login
+              </UncontrolledTooltip>
+            </NavItem>
+          )}
         </Nav>
       </Navbar>
     </Fragment>
