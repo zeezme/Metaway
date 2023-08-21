@@ -16,9 +16,9 @@ A API utilizada no projeto pode ser acessada através do link abaixo:
 
 Credenciais de Admin: 
 
-Usuário:  ```admin2``` 
+Usuário:  ```admin``` 
 
-Senha:  ```Brasil@123```
+Senha:  ```12345678```
 
 <hr/>
 
