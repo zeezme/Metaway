@@ -10,7 +10,7 @@ A API utilizada no projeto pode ser acessada através do link abaixo:
 
 <hr/>
 
-# Acesso ao aplicativo: [Acesso ao Aplicativo](http://134.65.237.168/ )
+# Acesso ao aplicativo: [Acesso ao Aplicativo](http://134.65.237.168/login/)
 
 ### Certifique-se de que o usuário possui a role ['ROLE_USER']!!
 
